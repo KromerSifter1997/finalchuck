@@ -15,6 +15,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.chucknorris.client.ChuckNorrisClient;
+import io.chucknorris.client.Joke;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName();
@@ -29,13 +37,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         btnRequest = (Button) findViewById(R.id.buttonRequest);
 
         btnRequest.setOnClickListener(new View.OnClickListener() {
                                           @Override
                                           public void onClick(View v){
+                                              //sendAndRequestResponse();
+                                              ChuckNorrisClient client = new ChuckNorrisClient();
+                                              Joke joke = client.getRandomJoke();
 
-                                              sendAndRequestResponse();
+                                              Toast.makeText(getApplicationContext(),"Response :" + joke.getValue(), Toast.LENGTH_LONG).show();//display the response on screen
 
                                           }
                                       }
@@ -53,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                Toast.makeText(getApplicationContext(),"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
+                // Joke kept in 'Value'
 
             }
         }, new Response.ErrorListener() {
